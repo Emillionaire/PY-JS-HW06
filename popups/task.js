@@ -9,6 +9,7 @@ modMain.classList.add('modal_active')
 // Show window #modal_seccess at click do button
 doBtn.onclick = () => {
     modSuccess.classList.add('modal_active')
+    modMain.classList.remove('modal_active')
 }
 
 // Close all window at click close button
