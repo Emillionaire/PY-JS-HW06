@@ -9,11 +9,16 @@ for (let i = 0; i <= menuLinkElem.length - 1; i++) {
 function clickMenu (elem) {
     for (let subMenu of menuSubList) {
         if (subMenu.parentElement == elem.parentElement) {
-            for (let a of menuSubList) {
-                a.classList.remove('menu_active')
+            if (subMenu.classList == 'menu menu_sub menu_active') {
+                subMenu.classList.remove('menu_active')
+                return false;
+            } else {
+                for (let a of menuSubList) {
+                    a.classList.remove('menu_active')
+                }
+                subMenu.classList.add('menu_active')
+                return false;
             }
-            subMenu.classList.add('menu_active')
-            return false;
         }
     }
 }
