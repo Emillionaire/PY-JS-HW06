@@ -1,68 +1,42 @@
-const sliderButtonPrev = document.getElementsByClassName('slider__arrow_prev')[0]
-const sliderButtonNext = document.getElementsByClassName('slider__arrow_next')[0]
 const imageList = document.getElementsByClassName('slider__item')
-const dotList = document.getElementsByClassName('slider__dot')
+const sliderButtonList = document.getElementsByClassName('slider__arrow')
+const dotButtonList = document.getElementsByClassName('slider__dot')
 
-// Dot onclick handler
-for (let i = 0; i <= dotList.length - 1; i++) {
-    let dot = (() => dotList[i])()
-    dot.onclick = () => dotClick(i)
+// Click handler generator
+function generatorClickHandler() {
+    for (let indexElem = 0; indexElem <= dotButtonList.length - 1; indexElem++) {
+        dotButtonList[indexElem].onclick = () => slideController(indexElem)
+    }
+    sliderButtonList[0].onclick = () => {
+        slideController(indexActiveSlide() - 1)
+    }
+    sliderButtonList[1].onclick = () => {
+        slideController(indexActiveSlide() + 1)
+    }
 }
 
-// Slider next onclick handler
-sliderButtonNext.onclick = () => {
-    slider(1)
+// Slide controller activates and deactivates image
+function slideController(indexElementToActivate) {
+    if (indexElementToActivate < 0) {
+        indexElementToActivate = imageList.length - 1
+    } else if (indexElementToActivate > imageList.length - 1) {
+        indexElementToActivate = 0
+    }
+    i = indexActiveSlide()
+    imageList[i].classList.remove('slider__item_active')
+    dotButtonList[i].classList.remove('slider__dot_active')
+    imageList[indexElementToActivate].classList.add('slider__item_active')
+    dotButtonList[indexElementToActivate].classList.add('slider__dot_active')
 }
 
-// Slider perv onclick handler
-sliderButtonPrev.onclick = () => {
-    slider(0)
-}
-
-// Slider controller
-function slider(direction) {
-    var itemActive = document.getElementsByClassName('slider__item_active')[0]
-
+// Active slide finder
+function indexActiveSlide() {
     for (let i = 0; i <= imageList.length - 1; i++) {
-        
-        if (imageList[i] == itemActive) {
-
-            imageList[i].classList.remove('slider__item_active')
-            dotList[i].classList.remove('slider__dot_active')
-            
-            if (direction == 1) {
-                
-                if (i < imageList.length - 1) {
-                    imageList[i + 1].classList.add('slider__item_active')
-                    dotList[i + 1].classList.add('slider__dot_active')
-                } else {
-                    imageList[0].classList.add('slider__item_active')
-                    dotList[0].classList.add('slider__dot_active')
-                }
-
-            } else {
-                
-                if (i > 0) {
-                    imageList[i - 1].classList.add('slider__item_active')
-                    dotList[i - 1].classList.add('slider__dot_active')
-                } else {
-                    imageList[imageList.length - 1].classList.add('slider__item_active')
-                    dotList[imageList.length - 1].classList.add('slider__dot_active')
-                }
-
-            }
+        if (imageList[i].classList.contains('slider__item_active')) {
+            return i;
         }
     }
 }
 
-// Dot controller
-function dotClick(numberDotClick) {
-    for (let image of imageList) {
-        image.classList.remove('slider__item_active')
-    }
-    for (let dot of dotList) {
-        dot.classList.remove('slider__dot_active')
-    }
-    dotList[numberDotClick].classList.add('slider__dot_active')
-    imageList[numberDotClick].classList.add('slider__item_active')
-}
+// Run script
+generatorClickHandler()
