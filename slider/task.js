@@ -31,12 +31,17 @@ function slideController(indexElementToActivate) {
 
 // Active slide finder
 function indexActiveSlide() {
-    for (let i = 0; i <= imageList.length - 1; i++) {
-        if (imageList[i].classList.contains('slider__item_active')) {
-            return i;
-        }
-    }
+    return Array.from(imageList).findIndex(el => el.classList.contains('slider__item_active'))
 }
+
+// OLD Active slide finder
+// function indexActiveSlide() {
+//     for (let i = 0; i <= imageList.length - 1; i++) {
+//         if (imageList[i].classList.contains('slider__item_active')) {
+//             return i;
+//         }
+//     }
+// }
 
 // Run script
 generatorClickHandler()
